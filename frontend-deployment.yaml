@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: ouardini14/ebook_front:v1.0
+          ports:
+            - containerPort: 3000
+          env:
+            - name: REACT_APP_baseURL
+              value: "http://backend-service:5000"
+            - name: REACT_APP_RECAPTCHA_SITE_KEY
+              value: "6LcqKiwkAAAAALKOQcvGAddkVAGZw7OjI59s8OUI"
+            - name: REACT_APP_API_KEY
+              value: "89c219ca4b987ea45e74ff2258f278e89fbf3cd1525b5c48f75c8d1f3768d50cbedc20fd14dccee5f662134ff5a54c6b452067c9e75cd5d26461af5054204bd8"

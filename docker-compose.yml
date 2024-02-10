@@ -1,0 +1,23 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_baseURL=http://localhost:5000
+      - REACT_APP_RECAPTCHA_SITE_KEY=6LcqKiwkAAAAALKOQcvGAddkVAGZw7OjI59s8OUI
+      - REACT_APP_API_KEY=89c219ca4b987ea45e74ff2258f278e89fbf3cd1525b5c48f75c8d1f3768d50cbedc20fd14dccee5f662134ff5a54c6b452067c9e75cd5d26461af5054204bd8
+    depends_on:
+      - backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGO_URL=mongodb+srv://Themoby:3fapRU50apc6ond2@cluster0.eopsi5v.mongodb.net/db_books?retryWrites=true&w=majority

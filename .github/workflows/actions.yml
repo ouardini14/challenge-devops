@@ -1,0 +1,35 @@
+name: Github actions
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm install
+          npm test
+      - name: Build  backend
+        run: |
+          cd backend
+          npm install
+          npm test
+      - name: Install Trivy
+        run: |
+            wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
+            tar zxvf trivy_0.19.2_Linux-64bit.tar.gz
+            sudo mv trivy /usr/local/bin/
+
+      - name: Docker vulnerabilities by Trivy
+        run: |
+           trivy image ${{ secrets.DOCKER_USERNAME }}/ebook_front:v1.0
+           trivy image ${{ secrets.DOCKER_USERNAME }}/ebook_back:v1.0
